@@ -2,6 +2,8 @@ package com.platform.VentureCapitalist.user;
 
 public enum Role {
 
-  USER,
-  ADMIN
+  ENTREPRENEUR,
+  VC,
+  ADMIN,
+
 }

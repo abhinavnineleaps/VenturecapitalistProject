@@ -23,17 +23,15 @@ public class AuthenticationService {
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
 
-  // THIS METHOD BASICALLY REGESTER THE USER IN THE DATA BASE RETURN THE TOKEN
-  public AuthenticationResponse register(Regestration request) {
+  // THIS METHOD BASICALLY REGESTER THE entrepreneur IN THE DATA BASE RETURN THE TOKEN
+  public AuthenticationResponse registerAsEntrepreneur(Regestration request) {
     var user = User.builder()
-        .firstname(request.getFirstname())
-        .lastname(request.getLastname())
         .email(request.getEmail())
         .password(passwordEncoder.encode(request.getPassword()))
 
             // yeh kaise deside krun
 
-        .role(Role.USER)
+        .role(Role.ENTREPRENEUR)
         .build();
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
@@ -43,6 +41,47 @@ public class AuthenticationService {
         .token(jwtToken)
         .build();
   }
+
+  // THIS METHOD BASICALLY REGESTER THE VC IN THE DATA BASE RETURN THE TOKEN
+  public AuthenticationResponse registerVC(Regestration request) {
+    var user = User.builder()
+            .email(request.getEmail())
+            .password(passwordEncoder.encode(request.getPassword()))
+
+            // yeh kaise deside krun
+
+            .role(Role.VC)
+            .build();
+    var savedUser = repository.save(user);
+    var jwtToken = jwtService.generateToken(user);
+    saveUserToken(savedUser, jwtToken);
+    //here we are returning the token
+    return AuthenticationResponse.builder()
+            .token(jwtToken)
+            .build();
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
     authenticationManager.authenticate(

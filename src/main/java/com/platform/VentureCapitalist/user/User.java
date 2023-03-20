@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "login")
+@Table(name = "userProfile")
 // LOGIN PART
 //HRE THE USER DETAILS CLASS IS FROM THE SPRING SECURITY CLASS WHICH BASICALLY HELPS SPRING TO MAKE IT EASY TO AUTHORIZE
 
@@ -28,8 +28,6 @@ public class User implements UserDetails {
   @Id
   @GeneratedValue
   private Integer id;
-  private String firstname;
-  private String lastname;
   private String  email;
   private String password;
 

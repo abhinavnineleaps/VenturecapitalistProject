@@ -14,12 +14,28 @@ public class AuthenticationController {
 
   private final AuthenticationService service;
 
-  @PostMapping("/registration")
-  public ResponseEntity<AuthenticationResponse> register(
+  //HERE WE ARE REGISTERING AS A ENTREPRENEUR
+
+  @PostMapping("/registration/Entrepreneur")
+  public ResponseEntity<AuthenticationResponse> registerEnp(
       @RequestBody Regestration request
   ) {
-    return ResponseEntity.ok(service.register(request));
+    return ResponseEntity.ok(service.registerAsEntrepreneur(request));
   }
+
+  //HERE WE ARE REGISTERING AS A VC
+
+  @PostMapping("/registration/VC")
+  public ResponseEntity<AuthenticationResponse> registerVc(
+          @RequestBody Regestration request
+  ) {
+    return ResponseEntity.ok(service.registerVC(request));
+  }
+
+
+
+
+
   @PostMapping("/authentication")
   public ResponseEntity<AuthenticationResponse> authenticate(
       @RequestBody AuthenticationRequest request
