@@ -1,7 +1,7 @@
-package com.platform.VentureCapitalist.confi;
+package com.platform.VentureCapitalist.jwtAuthPacks;
 
 
-import com.platform.VentureCapitalist.user.UserRepository;
+import com.platform.VentureCapitalist.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

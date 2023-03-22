@@ -1,4 +1,4 @@
-package com.platform.VentureCapitalist.user;
+package com.platform.VentureCapitalist.model;
 
 public enum Role {
 

@@ -1,7 +1,7 @@
-package com.platform.VentureCapitalist.confi;
+package com.platform.VentureCapitalist.jwtAuthPacks;
 
 
-import com.platform.VentureCapitalist.token.TokenRepository;
+import com.platform.VentureCapitalist.repository.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

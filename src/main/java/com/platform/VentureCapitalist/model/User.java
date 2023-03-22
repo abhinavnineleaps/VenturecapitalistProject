@@ -1,7 +1,6 @@
-package com.platform.VentureCapitalist.user;
+package com.platform.VentureCapitalist.model;
 
 
-import com.platform.VentureCapitalist.token.Token;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

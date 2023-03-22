@@ -1,5 +1,6 @@
-package com.platform.VentureCapitalist.token;
+package com.platform.VentureCapitalist.repository;
 
+import com.platform.VentureCapitalist.model.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

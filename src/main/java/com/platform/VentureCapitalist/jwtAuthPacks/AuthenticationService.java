@@ -1,13 +1,9 @@
-package com.platform.VentureCapitalist.auth;
+package com.platform.VentureCapitalist.jwtAuthPacks;
 
 
-import com.platform.VentureCapitalist.confi.JwtService;
-import com.platform.VentureCapitalist.token.Token;
-import com.platform.VentureCapitalist.token.TokenRepository;
-import com.platform.VentureCapitalist.token.TokenType;
-import com.platform.VentureCapitalist.user.Role;
-import com.platform.VentureCapitalist.user.User;
-import com.platform.VentureCapitalist.user.UserRepository;
+import com.platform.VentureCapitalist.model.*;
+import com.platform.VentureCapitalist.repository.TokenRepository;
+import com.platform.VentureCapitalist.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +20,7 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   // THIS METHOD BASICALLY REGESTER THE entrepreneur IN THE DATA BASE RETURN THE TOKEN
-  public AuthenticationResponse registerAsEntrepreneur(Regestration request) {
+  public AuthenticationResponse registerAsEntrepreneur(SignUp request) {
     var user = User.builder()
         .email(request.getEmail())
         .password(passwordEncoder.encode(request.getPassword()))
@@ -43,7 +39,7 @@ public class AuthenticationService {
   }
 
   // THIS METHOD BASICALLY REGESTER THE VC IN THE DATA BASE RETURN THE TOKEN
-  public AuthenticationResponse registerVC(Regestration request) {
+  public AuthenticationResponse registerVC(SignUp request) {
     var user = User.builder()
             .email(request.getEmail())
             .password(passwordEncoder.encode(request.getPassword()))

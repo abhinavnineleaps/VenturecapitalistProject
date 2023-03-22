@@ -1,7 +1,6 @@
-package com.platform.VentureCapitalist.token;
+package com.platform.VentureCapitalist.model;
 
 
-import com.platform.VentureCapitalist.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +16,7 @@ public class Token {
 
   @Id
   @GeneratedValue
+  @Column(name ="token_id")
   public Integer id;
 
   @Column(unique = true)

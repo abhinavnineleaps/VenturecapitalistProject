@@ -1,4 +1,4 @@
-package com.platform.VentureCapitalist.confi;
+package com.platform.VentureCapitalist.jwtAuthPacks;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

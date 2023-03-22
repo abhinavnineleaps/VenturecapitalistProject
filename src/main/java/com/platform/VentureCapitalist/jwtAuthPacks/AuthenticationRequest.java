@@ -1,4 +1,4 @@
-package com.platform.VentureCapitalist.auth;
+package com.platform.VentureCapitalist.jwtAuthPacks;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
