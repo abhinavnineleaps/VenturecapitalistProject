@@ -20,7 +20,7 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   // THIS METHOD BASICALLY REGESTER THE entrepreneur IN THE DATA BASE RETURN THE TOKEN
-  public AuthenticationResponse registerAsEntrepreneur(SignUp request) {
+  public AuthenticationResponse registerAsEntrepreneur(UserProfile request) {
     var user = User.builder()
         .email(request.getEmail())
         .password(passwordEncoder.encode(request.getPassword()))
@@ -39,7 +39,7 @@ public class AuthenticationService {
   }
 
   // THIS METHOD BASICALLY REGESTER THE VC IN THE DATA BASE RETURN THE TOKEN
-  public AuthenticationResponse registerVC(SignUp request) {
+  public AuthenticationResponse registerVC(UserProfile request) {
     var user = User.builder()
             .email(request.getEmail())
             .password(passwordEncoder.encode(request.getPassword()))
