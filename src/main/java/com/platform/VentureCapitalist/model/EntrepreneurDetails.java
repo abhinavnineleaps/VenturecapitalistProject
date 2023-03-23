@@ -22,7 +22,7 @@ public class EntrepreneurDetails {
     @Column(name = "bio")
     private String bio;
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private UserProfile userProfile;
+    private User user;
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "startup_details",referencedColumnName = "startupId")
     private StartupDetails startupDetails;

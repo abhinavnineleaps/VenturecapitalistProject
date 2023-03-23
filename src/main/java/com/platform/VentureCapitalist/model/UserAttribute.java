@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "userAttributes")
+@Entity
 @Table(name = "userAttributes")
 public class UserAttribute {
     @Id
@@ -19,7 +19,7 @@ public class UserAttribute {
     @Column(name = "otp_expiry_date")
     private String otp_expiry_date;
     @OneToOne(cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
-    private UserProfile userProfile;
+    private User user;
 }
 
 

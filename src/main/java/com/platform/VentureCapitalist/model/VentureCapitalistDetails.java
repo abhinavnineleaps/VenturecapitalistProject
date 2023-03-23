@@ -22,7 +22,7 @@ public class VentureCapitalistDetails {
     @Column(name = "location")
     private String location;
     @OneToOne(cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
-    private UserProfile userProfile;
+    private User user;
 
 }
 

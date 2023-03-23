@@ -1,10 +1,13 @@
 package com.platform.VentureCapitalist.jwtAuthPacks;
 
 
-import com.platform.VentureCapitalist.model.*;
+import com.platform.VentureCapitalist.model.Token;
+import com.platform.VentureCapitalist.model.TokenType;
+import com.platform.VentureCapitalist.model.User;
 import com.platform.VentureCapitalist.repository.TokenRepository;
 import com.platform.VentureCapitalist.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,14 +23,18 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   // THIS METHOD BASICALLY REGESTER THE entrepreneur IN THE DATA BASE RETURN THE TOKEN
-  public AuthenticationResponse registerAsEntrepreneur(UserProfile request) {
+
+  public AuthenticationResponse registerAsEntrepreneur(User request) {
+
+    String temp= request.getRoles();
     var user = User.builder()
         .email(request.getEmail())
         .password(passwordEncoder.encode(request.getPassword()))
-
             // yeh kaise deside krun
+            .roles(temp)
 
-        .role(Role.ENTREPRENEUR)
+//        .role(Role.ENTREPRENEUR)
+
         .build();
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
@@ -37,46 +44,6 @@ public class AuthenticationService {
         .token(jwtToken)
         .build();
   }
-
-  // THIS METHOD BASICALLY REGESTER THE VC IN THE DATA BASE RETURN THE TOKEN
-  public AuthenticationResponse registerVC(UserProfile request) {
-    var user = User.builder()
-            .email(request.getEmail())
-            .password(passwordEncoder.encode(request.getPassword()))
-
-            // yeh kaise deside krun
-
-            .role(Role.VC)
-            .build();
-    var savedUser = repository.save(user);
-    var jwtToken = jwtService.generateToken(user);
-    saveUserToken(savedUser, jwtToken);
-    //here we are returning the token
-    return AuthenticationResponse.builder()
-            .token(jwtToken)
-            .build();
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -108,7 +75,7 @@ public class AuthenticationService {
   }
 
   private void revokeAllUserTokens(User user) {
-    var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+    var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getUniqueId());
     if (validUserTokens.isEmpty())
       return;
     validUserTokens.forEach(token -> {

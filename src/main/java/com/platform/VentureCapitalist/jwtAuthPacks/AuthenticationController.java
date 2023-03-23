@@ -1,6 +1,6 @@
 package com.platform.VentureCapitalist.jwtAuthPacks;
 
-import com.platform.VentureCapitalist.model.UserProfile;
+import com.platform.VentureCapitalist.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,22 +19,10 @@ public class AuthenticationController {
 
   @PostMapping("/registration/Entrepreneur")
   public ResponseEntity<AuthenticationResponse> registerEnp(
-      @RequestBody UserProfile request
+      @RequestBody User request
   ) {
     return ResponseEntity.ok(service.registerAsEntrepreneur(request));
   }
-
-  //HERE WE ARE REGISTERING AS A VC
-
-  @PostMapping("/registration/VC")
-  public ResponseEntity<AuthenticationResponse> registerVc(
-          @RequestBody UserProfile request
-  ) {
-    return ResponseEntity.ok(service.registerVC(request));
-  }
-
-
-
 
 
   @PostMapping("/authentication")
