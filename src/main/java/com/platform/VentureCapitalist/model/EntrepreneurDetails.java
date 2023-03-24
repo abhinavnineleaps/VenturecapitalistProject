@@ -15,17 +15,20 @@ import lombok.NoArgsConstructor;
 public class EntrepreneurDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name ="ent_id")
-    private int id;
 //    @Column(name = "name")
 //    public String sName=signUp.getName();
+    @Column(name ="ent_id")
+    private int id;
     @Column(name = "bio")
     private String bio;
+
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private User user;
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "startup_details",referencedColumnName = "startupId")
     private StartupDetails startupDetails;
+
+
 
 
 }

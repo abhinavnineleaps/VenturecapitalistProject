@@ -16,6 +16,8 @@ public class UserAttribute {
     private int id;
     @Column(name = "otp_type")
     private String otp_type;
+    @Column(name = "otp")
+    private String otp;
     @Column(name = "otp_expiry_date")
     private String otp_expiry_date;
     @OneToOne(cascade = CascadeType.ALL ,fetch = FetchType.LAZY)

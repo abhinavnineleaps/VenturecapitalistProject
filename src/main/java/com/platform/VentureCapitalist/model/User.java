@@ -23,9 +23,6 @@ import java.util.List;
 
 public class User implements UserDetails {
 
-
-
-
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "unique_id")
@@ -39,19 +36,19 @@ public class User implements UserDetails {
   @Column(name = "phone_number")
   private String phoneNumber;
 
-  @Column(name = "confirm_password")
-  private String VcId;
-
-  @Column(name = "entrepreneur_id")
-  private String entrepreneurId;
-  @Column(name = "user_attribute_id")
-  private String userAttributeId;
+//  @Column(name = "venture_id")
+//  private String VcId;
+//
+//  @Column(name = "entrepreneur_id")
+//  private String entrepreneurId;
+//  @Column(name = "user_attribute_id")
+//  private String userAttributeId;
 
   @Column(name = "roles")
   private String roles;
 
-  //private VentureCapitalistDetails vcId;
-  // private EntrepreneurDetails eId;
+//  private VentureCapitalistDetails vcId;
+//   private EntrepreneurDetails eId;
 
   @OneToOne(targetEntity = VentureCapitalistDetails.class, cascade = CascadeType.ALL)
   @JoinColumn(name = "ven_details", referencedColumnName = "ven_id")
@@ -64,11 +61,10 @@ public class User implements UserDetails {
   @OneToOne(targetEntity = UserAttribute.class, cascade = CascadeType.ALL)
   @JoinColumn(name = "usr_attr", referencedColumnName = "userAttribute_id")
   private UserAttribute userAttribute;
-//  @Enumerated(EnumType.STRING)
-//  private Role role;
+  @Enumerated(EnumType.STRING)
+  private Role role;
   @OneToMany(mappedBy = "user")
   private List<Token> tokens;
-
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

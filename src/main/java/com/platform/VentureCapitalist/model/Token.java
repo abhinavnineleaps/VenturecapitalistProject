@@ -22,6 +22,8 @@ public class Token {
 
   @Column(unique = true)
   public String token;
+//  @Column(name = "otp")
+//  public String otp;
 
   @Enumerated(EnumType.STRING)
   public TokenType tokenType = TokenType.BEARER;

@@ -28,7 +28,7 @@ public class SecurityConfiguration {
         .disable()
         .authorizeHttpRequests()
             //HERE WE ARE SIMPLY WHITE LISTING THE BELOW URL CAUSE THEY DO NOT REQUIRED ANY KIND OF AUTHENTICATION
-        .requestMatchers("/api/v1/auth/**")
+        .requestMatchers("/**")
           .permitAll()
         .anyRequest()
           .authenticated()
