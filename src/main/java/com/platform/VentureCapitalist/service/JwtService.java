@@ -1,4 +1,4 @@
-package com.platform.VentureCapitalist.jwtAuthPacks;
+package com.platform.VentureCapitalist.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

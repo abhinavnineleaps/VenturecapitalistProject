@@ -1,4 +1,4 @@
-package com.platform.VentureCapitalist.jwtAuthPacks;
+package com.platform.VentureCapitalist.service;
 
 import com.platform.VentureCapitalist.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;

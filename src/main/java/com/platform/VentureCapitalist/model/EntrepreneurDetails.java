@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "entrepreneurDetails")
 public class EntrepreneurDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @Column(name = "name")
 //    public String sName=signUp.getName();
     @Column(name ="ent_id")
@@ -22,9 +22,9 @@ public class EntrepreneurDetails {
     @Column(name = "bio")
     private String bio;
 
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private User user;
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "startup_details",referencedColumnName = "startupId")
     private StartupDetails startupDetails;
 

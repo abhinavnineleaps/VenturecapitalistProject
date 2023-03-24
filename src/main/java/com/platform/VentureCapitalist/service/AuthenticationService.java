@@ -1,6 +1,8 @@
-package com.platform.VentureCapitalist.jwtAuthPacks;
+package com.platform.VentureCapitalist.service;
 
 
+import com.platform.VentureCapitalist.jwtAuthPacks.AuthenticationRequest;
+import com.platform.VentureCapitalist.jwtAuthPacks.AuthenticationResponse;
 import com.platform.VentureCapitalist.model.Token;
 import com.platform.VentureCapitalist.model.TokenType;
 import com.platform.VentureCapitalist.model.User;
