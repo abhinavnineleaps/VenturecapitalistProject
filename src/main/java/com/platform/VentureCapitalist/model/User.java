@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,10 +30,15 @@ public class User implements UserDetails {
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "unique_id")
   private int uniqueId;
+  @NotBlank
   @Column(name = "name")
   private String name;
+  @NotBlank
+  @Email
   @Column(name = "email")
   private String email;
+  @NotBlank
+  @Size(min = 5)
   @Column(name = "password")
   private String password;
   @Column(name = "phone_number")
