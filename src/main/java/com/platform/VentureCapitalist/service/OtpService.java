@@ -1,5 +1,6 @@
 package com.platform.VentureCapitalist.service;
 
+import com.platform.VentureCapitalist.model.OTP;
 import com.platform.VentureCapitalist.model.User;
 import com.platform.VentureCapitalist.util.OtpGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,15 @@ public class OtpService {
     public String savedOtp()
     {
         return saveOtp;
+    }
+
+        public  ResponseEntity<String> validation(OTP otp) {
+        String s =saveOtp;
+        if (otp.getOtp().equals(s)) {
+            return ResponseEntity.ok("OTP validated successfully");
+//        return "success";
+        } else
+            return ResponseEntity.badRequest().body("Invalid OTP");
+//      return otp.getOtp();
     }
 }
