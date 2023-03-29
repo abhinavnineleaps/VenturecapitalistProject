@@ -17,8 +17,8 @@ import java.util.List;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 @Entity
 @Table(name = "userProfile")
 // LOGIN PART
@@ -59,20 +59,22 @@ public class User implements UserDetails {
 //   private EntrepreneurDetails eId;
 
   @OneToOne(targetEntity = VentureCapitalistDetails.class, cascade = CascadeType.ALL)
-  @JoinColumn(name = "ven_details", referencedColumnName = "ven_id")
+  @JoinColumn(name = "ventureCapitalistID", referencedColumnName = "ven_id")
   private VentureCapitalistDetails ventureCapitalistDetails;
 
   @OneToOne(targetEntity = EntrepreneurDetails.class, cascade = CascadeType.ALL)
-  @JoinColumn(name = "ent_details", referencedColumnName = "ent_id")
+  @JoinColumn(name = "entrepreneurCapitalistID", referencedColumnName = "ent_id")
   private EntrepreneurDetails entrepreneurDetails;
 
-  @OneToOne(targetEntity = UserAttribute.class, cascade = CascadeType.ALL)
+  @OneToOne(targetEntity = UserAttribute.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
   @JoinColumn(name = "usr_attr", referencedColumnName = "userAttribute_id")
   private UserAttribute userAttribute;
   @Enumerated(EnumType.STRING)
   private Role role;
   @OneToMany(mappedBy = "user")
   private List<Token> tokens;
+//  @OneToOne(mappedBy = "user")
+//  private OTP otps;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

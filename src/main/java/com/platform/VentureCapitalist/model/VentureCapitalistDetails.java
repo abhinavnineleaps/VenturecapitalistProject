@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "ventureDetails")
 public class VentureCapitalistDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name ="ven_id")

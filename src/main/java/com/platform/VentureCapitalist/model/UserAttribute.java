@@ -1,12 +1,11 @@
 package com.platform.VentureCapitalist.model;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "userAttributes")
 public class UserAttribute {
@@ -18,10 +17,16 @@ public class UserAttribute {
     private String otp_type;
     @Column(name = "otp")
     private String otp;
-    @Column(name = "otp_expiry_date")
-    private String otp_expiry_date;
-    @OneToOne(cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
+    @Column(name = "otp_expiry_time")
+    private LocalDateTime otp_expiry_time;
+    @OneToOne(cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id",referencedColumnName = "unique_id")
     private User user;
+    @Column(name = "reg_key")
+    private UUID reg_key=UUID.randomUUID();
+    @Column(name = "email_verified")
+    private boolean email_verified;
+
 }
 
 
