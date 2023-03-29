@@ -18,12 +18,10 @@ public class Token {
   @Id
   @GeneratedValue
   @Column(name ="token_id")
-  public Integer id;
+  public Integer tokenId;
 
   @Column(unique = true)
   public String token;
-//  @Column(name = "otp")
-//  public String otp;
 
   @Enumerated(EnumType.STRING)
   public TokenType tokenType = TokenType.BEARER;
@@ -31,6 +29,7 @@ public class Token {
   public boolean revoked;
 
   public boolean expired;
+
 
   @ManyToOne
   @JoinColumn(name = "user_id")

@@ -10,7 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 
 @Data
 @Builder
@@ -23,10 +22,13 @@ import java.util.List;
 
 public class User implements UserDetails {
 
+
+
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "unique_id")
-  private int uniqueId;
+  @Column(name = "user_id")//pk
+  private int userId;
   @Column(name = "name")
   private String name;
   @Column(name = "email")
@@ -36,46 +38,42 @@ public class User implements UserDetails {
   @Column(name = "phone_number")
   private String phoneNumber;
 
-//  @Column(name = "venture_id")
-//  private String VcId;
-//
-//  @Column(name = "entrepreneur_id")
-//  private String entrepreneurId;
-//  @Column(name = "user_attribute_id")
-//  private String userAttributeId;
+  @Column(name = "confirm_password")
+  private String VcId;
+
+  @Column(name = "entrepreneur_id")
+  private String entrepreneurId;
+  @Column(name = "user_attribute_id")
+  private String userAttributeId;
 
   @Column(name = "roles")
-  private String roles;
+  private String role;
 
-//  private VentureCapitalistDetails vcId;
-//   private EntrepreneurDetails eId;
+//  @Enumerated(EnumType.STRING)
+//  private Role role;
 
+//  @Override
+//  public Collection<? extends GrantedAuthority> getAuthorities() {
+//    return List.of(new SimpleGrantedAuthority(role.name()));
+//  }
   @OneToOne(targetEntity = VentureCapitalistDetails.class, cascade = CascadeType.ALL)
-  @JoinColumn(name = "ven_details", referencedColumnName = "ven_id")
+  @JoinColumn(name = "ven_details", referencedColumnName = "vc_id")
   private VentureCapitalistDetails ventureCapitalistDetails;
 
-  @OneToOne(targetEntity = EntrepreneurDetails.class, cascade = CascadeType.ALL)
+  @OneToOne(targetEntity = EntrepreneurDetails.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
   @JoinColumn(name = "ent_details", referencedColumnName = "ent_id")
   private EntrepreneurDetails entrepreneurDetails;
 
   @OneToOne(targetEntity = UserAttribute.class, cascade = CascadeType.ALL)
   @JoinColumn(name = "usr_attr", referencedColumnName = "userAttribute_id")
   private UserAttribute userAttribute;
-  @Enumerated(EnumType.STRING)
-  private Role role;
-  @OneToMany(mappedBy = "user")
-  private List<Token> tokens;
 
+
+// given below are the method of user implementation class.
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return null;
   }
-
-  // THIS METHOD BASICALLY RETURN THE ROLE
-//  @Override
-//  public Collection<? extends GrantedAuthority> getAuthorities() {
-//    return List.of(new SimpleGrantedAuthority(role.name()));
-//  }
   @Override
   public String getPassword() {
     return password;

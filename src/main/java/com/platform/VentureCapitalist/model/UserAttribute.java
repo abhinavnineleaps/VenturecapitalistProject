@@ -12,15 +12,19 @@ import lombok.NoArgsConstructor;
 public class UserAttribute {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "userAttribute_id")
-    private int id;
-    @Column(name = "otp_type")
-    private String otp_type;
-    @Column(name = "otp")
+    @Column(name = "userAttribute_id")// PK
+    private int userAttributeId;
+    @Column(name = "Otp")
     private String otp;
+
+    @Column(name = "otp_type")
+    private String otpType;
     @Column(name = "otp_expiry_date")
-    private String otp_expiry_date;
-    @OneToOne(cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
+    private String otpExpiryDate;
+    @Column(name = "registration_key")
+    private String registrationKey;
+//    @OneToOne(cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "userAttribute",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private User user;
 }
 

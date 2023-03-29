@@ -3,13 +3,9 @@ package com.platform.VentureCapitalist.service;
 
 import com.platform.VentureCapitalist.jwtAuthPacks.AuthenticationRequest;
 import com.platform.VentureCapitalist.jwtAuthPacks.AuthenticationResponse;
-import com.platform.VentureCapitalist.model.Token;
-import com.platform.VentureCapitalist.model.TokenType;
-import com.platform.VentureCapitalist.model.User;
-import com.platform.VentureCapitalist.repository.TokenRepository;
-import com.platform.VentureCapitalist.repository.UserRepository;
+import com.platform.VentureCapitalist.model.*;
+import com.platform.VentureCapitalist.repository.*;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +15,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
   private final UserRepository repository;
+  private final VentureCapitalistDetailsRepository ventureCapitalistDetailsRepository;
+  private final EntrepreneurDetailsRepository entrepreneurDetailsRepository;
+  private final StartupDetailsRepository startupDetailsRepository;
+
   private final TokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
@@ -26,17 +26,16 @@ public class AuthenticationService {
 
   // THIS METHOD BASICALLY REGESTER THE entrepreneur IN THE DATA BASE RETURN THE TOKEN
 
-  public AuthenticationResponse registerAsEntrepreneur(User request) {
+  public AuthenticationResponse signUp(User request) {
 
-    String temp= request.getRoles();
+    String temp= request.getRole();
     var user = User.builder()
+
+            .phoneNumber(request.getPhoneNumber())
         .email(request.getEmail())
         .password(passwordEncoder.encode(request.getPassword()))
-            // yeh kaise deside krun
-            .roles(temp)
-
-//        .role(Role.ENTREPRENEUR)
-
+            .name(request.getName())
+          .role(temp)
         .build();
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
@@ -44,11 +43,11 @@ public class AuthenticationService {
     //here we are returning the token
     return AuthenticationResponse.builder()
         .token(jwtToken)
+            .message(" You have signup succesfully")
         .build();
   }
 
-
-  public AuthenticationResponse authenticate(AuthenticationRequest request) {
+  public AuthenticationResponse logIn(AuthenticationRequest request) {
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
             request.getEmail(),
@@ -77,7 +76,7 @@ public class AuthenticationService {
   }
 
   private void revokeAllUserTokens(User user) {
-    var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getUniqueId());
+    var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getUserId());
     if (validUserTokens.isEmpty())
       return;
     validUserTokens.forEach(token -> {
@@ -86,4 +85,5 @@ public class AuthenticationService {
     });
     tokenRepository.saveAll(validUserTokens);
   }
+
 }
