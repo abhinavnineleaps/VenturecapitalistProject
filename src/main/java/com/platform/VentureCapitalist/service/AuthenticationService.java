@@ -6,6 +6,7 @@ import com.platform.VentureCapitalist.jwtAuthPacks.AuthenticationResponse;
 import com.platform.VentureCapitalist.model.*;
 import com.platform.VentureCapitalist.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,11 +24,14 @@ public class AuthenticationService {
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
+  @Autowired
+  OtpService otpService;
 
   // THIS METHOD BASICALLY REGESTER THE entrepreneur IN THE DATA BASE RETURN THE TOKEN
 
   public AuthenticationResponse signUp(User request) {
 
+    UserAttribute reg=new UserAttribute();
     String temp= request.getRole();
     var user = User.builder()
 
@@ -42,8 +46,9 @@ public class AuthenticationService {
     saveUserToken(savedUser, jwtToken);
     //here we are returning the token
     return AuthenticationResponse.builder()
-        .token(jwtToken)
-            .message(" You have signup succesfully")
+//        .token(jwtToken)
+            .message1(" You have signup succesfully")
+            .message(String.valueOf(reg.getReg_key()))
         .build();
   }
 

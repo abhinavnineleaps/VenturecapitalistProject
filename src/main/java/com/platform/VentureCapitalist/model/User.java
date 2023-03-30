@@ -2,29 +2,22 @@ package com.platform.VentureCapitalist.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "userProfile")
 // LOGIN PART
 //HRE THE USER DETAILS CLASS IS FROM THE SPRING SECURITY CLASS WHICH BASICALLY HELPS SPRING TO MAKE IT EASY TO AUTHORIZE
 
 public class User implements UserDetails {
-
-
-
-
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "user_id")//pk
@@ -56,7 +49,7 @@ public class User implements UserDetails {
 //  public Collection<? extends GrantedAuthority> getAuthorities() {
 //    return List.of(new SimpleGrantedAuthority(role.name()));
 //  }
-  @OneToOne(targetEntity = VentureCapitalistDetails.class, cascade = CascadeType.ALL)
+  @OneToOne(targetEntity = VentureCapitalistDetails.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
   @JoinColumn(name = "ven_details", referencedColumnName = "vc_id")
   private VentureCapitalistDetails ventureCapitalistDetails;
 
@@ -64,7 +57,7 @@ public class User implements UserDetails {
   @JoinColumn(name = "ent_details", referencedColumnName = "ent_id")
   private EntrepreneurDetails entrepreneurDetails;
 
-  @OneToOne(targetEntity = UserAttribute.class, cascade = CascadeType.ALL)
+  @OneToOne(targetEntity = UserAttribute.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
   @JoinColumn(name = "usr_attr", referencedColumnName = "userAttribute_id")
   private UserAttribute userAttribute;
 
@@ -98,5 +91,6 @@ public class User implements UserDetails {
   public boolean isEnabled() {
     return true;
   }
+
 
 }
