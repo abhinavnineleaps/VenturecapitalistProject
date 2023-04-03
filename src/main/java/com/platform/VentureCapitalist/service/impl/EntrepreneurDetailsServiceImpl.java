@@ -1,4 +1,4 @@
-package com.platform.VentureCapitalist.service;
+package com.platform.VentureCapitalist.service.impl;
 
 import com.platform.VentureCapitalist.model.EntrepreneurDetails;
 import com.platform.VentureCapitalist.repository.EntrepreneurDetailsRepository;
@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EntrepreneurService {
+public class EntrepreneurDetailsService {
 
     @Autowired
   private  EntrepreneurDetailsRepository entrepreneurDetailsRepository;
     @Autowired
     private StartupDetailsRepository startupDetailsRepository;
-    public EntrepreneurService(EntrepreneurDetailsRepository entrepreneurDetailsRepository) {
+    public EntrepreneurDetailsService(EntrepreneurDetailsRepository entrepreneurDetailsRepository) {
         this.entrepreneurDetailsRepository = entrepreneurDetailsRepository;
     }
     public EntrepreneurDetails saveEntrepreneur(EntrepreneurDetails entrepreneurDetails)
@@ -21,7 +21,7 @@ public class EntrepreneurService {
         return entrepreneurDetailsRepository.save(entrepreneurDetails);
     }
 //    public EntrepreneurDetails addEnt(EntrepreneurDetails entrepreneurDetails) {
-//        StartupDetails startupDetails=startupDetailsRepository.findById(entrepreneurDetails.getStartupDetails().getStartUpId()).get();
+//        StartupDetails starupDtetails=startupDetailsRepository.findById(entrepreneurDetails.getStartupDetails().getStartUpId()).get();
 //        entrepreneurDetails.setStartupDetails(startupDetails);
 //        return entrepreneurDetailsRepository.save(entrepreneurDetails);
 //    }
