@@ -1,83 +1,92 @@
 package com.platform.VentureCapitalist.controller;
 
+import com.platform.VentureCapitalist.dto.*;
 import com.platform.VentureCapitalist.jwtAuthPacks.AuthenticationRequest;
 import com.platform.VentureCapitalist.jwtAuthPacks.AuthenticationResponse;
-import com.platform.VentureCapitalist.model.EntrepreneurDetails;
-import com.platform.VentureCapitalist.model.User;
-import com.platform.VentureCapitalist.model.UserAttribute;
-import com.platform.VentureCapitalist.model.VentureCapitalistDetails;
 import com.platform.VentureCapitalist.repository.EntrepreneurDetailsRepository;
 import com.platform.VentureCapitalist.repository.StartupDetailsRepository;
+import com.platform.VentureCapitalist.repository.UserAttributeRepository;
 import com.platform.VentureCapitalist.service.AuthenticationService;
-import com.platform.VentureCapitalist.service.EntrepreneurService;
-import com.platform.VentureCapitalist.service.OtpService;
-import com.platform.VentureCapitalist.service.VentureService;
+import com.platform.VentureCapitalist.service.EntrepreneurDetailsService;
+import com.platform.VentureCapitalist.service.VentureDetailsService;
+import com.platform.VentureCapitalist.service.impl.VentureDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api.venturecapitalist.com")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    // For searching
+    @Autowired
+    private final AuthenticationService authenticationService;
+    @Autowired
+    private final VentureDetailsService ventureDetailsService;
 
-    //    private SearchServiceInterface searchServiceInterfface;
     @Autowired
-    private final AuthenticationService service;
+    private final EntrepreneurDetailsService entrepreneurDetailsService;
     @Autowired
-    private OtpService otpService;
-    @Autowired
-    private EntrepreneurService entrepreneurService;
-    @Autowired
-    private VentureService ventureService;
+    private VentureDetailsServiceImpl ventureDetailsServiceImpl;
     @Autowired
     private StartupDetailsRepository startupDetailsRepository;
     @Autowired
     private EntrepreneurDetailsRepository entrepreneurDetailsRepository;
-    UserAttribute userAttribute;
-    @PostMapping("/signup")
-    public ResponseEntity<?> signUpUser(@RequestBody User user) {
-        //"" UNDER WROKING"" //
-        otpService.sendOTP(user);
-        return ResponseEntity.ok(service.signUp(user));
 
+    @Autowired
+    private UserAttributeRepository userAttributeRepository;
+
+
+
+
+
+
+
+
+
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> signUpUser(@RequestBody UserDto userDto) {
+        return ResponseEntity.ok(authenticationService.signUp(userDto));
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> logInUser(
             @RequestBody AuthenticationRequest request
     ) {
-        return ResponseEntity.ok(service.logIn(request));
+        return ResponseEntity.ok(authenticationService.logIn(request));
     }
 
     // "" UNDER WORKING "" //
 
     @PostMapping("/validate")
-    public ResponseEntity<String> validation(@RequestBody UserAttribute otp)
-    {
-        if (otpService.validateOTP(otp.getUserAttributeId(),otp.getOtp())) {
-            return ResponseEntity.ok("OTP validated successfully");
-        }
-        else
-            return ResponseEntity.badRequest().body("Invalid OTP");
+    public ResponseEntity<ResponseDto> validation(@RequestBody UserAttributeDto userAttributeDto) throws Exception {
+
+
+
+            return authenticationService.validateOTP(userAttributeDto);
     }
 
     @PostMapping("/registration-vc")
-    public ResponseEntity<VentureCapitalistDetails> registerVC(@RequestBody VentureCapitalistDetails ventureCapitalistDetails) {
+    public ResponseDto registerVC(@RequestBody VentureCaptitalDetailsDto ventureCaptitalDetailsDto) {
+
         {
-            return ResponseEntity.ok(ventureService.saveVenture(ventureCapitalistDetails));
+            return ventureDetailsService.saveVenture(ventureCaptitalDetailsDto);
+//            return ResponseEntity.ok(ventureDetailsService.saveVenture(ventureCaptitalDetailsDto));
         }
     }
 
     @PostMapping("/registration-ent")
-    public ResponseEntity<EntrepreneurDetails> registerEntrepreneur(@RequestBody EntrepreneurDetails entrepreneurDetails) {
+    public ResponseDto registerEntrepreneur(@RequestBody EntrepreneurDetailsDto entrepreneurDetailsDto) {
         {
 
 
-            return ResponseEntity.ok(entrepreneurService.saveEntrepreneur(entrepreneurDetails));
+            return entrepreneurDetailsService.saveEntrepreneur(entrepreneurDetailsDto);
+
         }
     }
 

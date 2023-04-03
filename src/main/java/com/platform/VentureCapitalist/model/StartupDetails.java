@@ -25,9 +25,9 @@ public class StartupDetails {
     private String startupSummary;
     private String websiteUrl;
     private String domain;
-private String coEmail;
-private String coRole;
-private String coName;
+    private String coEmail;
+    private String coRole;
+    private String coName;
 
     // other membervala part kana ha abi
 

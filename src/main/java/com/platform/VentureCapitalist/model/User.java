@@ -2,21 +2,22 @@ package com.platform.VentureCapitalist.model;
 
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
-@Builder
+//@Builder
 @Entity
 @Table(name = "userProfile")
 // LOGIN PART
 //HRE THE USER DETAILS CLASS IS FROM THE SPRING SECURITY CLASS WHICH BASICALLY HELPS SPRING TO MAKE IT EASY TO AUTHORIZE
-
 public class User implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,23 +40,26 @@ public class User implements UserDetails {
   @Column(name = "user_attribute_id")
   private String userAttributeId;
 
+  private boolean registered;
+
+  public boolean isRegistered() {
+    return registered;
+  }
+
+  public void setRegistered(boolean registered) {
+    this.registered = registered;
+  }
+
   @Column(name = "roles")
   private String role;
 
-//  @Enumerated(EnumType.STRING)
-//  private Role role;
-
-//  @Override
-//  public Collection<? extends GrantedAuthority> getAuthorities() {
-//    return List.of(new SimpleGrantedAuthority(role.name()));
-//  }
-  @OneToOne(targetEntity = VentureCapitalistDetails.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-  @JoinColumn(name = "ven_details", referencedColumnName = "vc_id")
-  private VentureCapitalistDetails ventureCapitalistDetails;
-
-  @OneToOne(targetEntity = EntrepreneurDetails.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-  @JoinColumn(name = "ent_details", referencedColumnName = "ent_id")
-  private EntrepreneurDetails entrepreneurDetails;
+//  @OneToOne(targetEntity = VentureCapitalistDetails.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//  @JoinColumn(name = "ven_details", referencedColumnName = "vc_id")
+//  private VentureCapitalistDetails ventureCapitalistDetails;
+//
+//  @OneToOne(targetEntity = EntrepreneurDetails.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//  @JoinColumn(name = "ent_details", referencedColumnName = "ent_id")
+//  private EntrepreneurDetails entrepreneurDetails;
 
   @OneToOne(targetEntity = UserAttribute.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
   @JoinColumn(name = "usr_attr", referencedColumnName = "userAttribute_id")

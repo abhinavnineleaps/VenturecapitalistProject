@@ -1,6 +1,8 @@
-package com.platform.VentureCapitalist.service;
+package com.platform.VentureCapitalist.service.impl;
 
 
+import com.platform.VentureCapitalist.dto.ResponseDto;
+import com.platform.VentureCapitalist.dto.UserAttributeDto;
 import com.platform.VentureCapitalist.dto.UserDto;
 import com.platform.VentureCapitalist.jwtAuthPacks.AuthenticationRequest;
 import com.platform.VentureCapitalist.jwtAuthPacks.AuthenticationResponse;
@@ -9,21 +11,23 @@ import com.platform.VentureCapitalist.model.TokenType;
 import com.platform.VentureCapitalist.model.User;
 import com.platform.VentureCapitalist.model.UserAttribute;
 import com.platform.VentureCapitalist.repository.*;
+import com.platform.VentureCapitalist.service.AuthenticationService;
+import com.platform.VentureCapitalist.service.JwtService;
 import com.platform.VentureCapitalist.util.EmailUtils;
 import com.platform.VentureCapitalist.util.OtpGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService{
 
     @Autowired
     private EmailUtils emailUtils;
@@ -54,8 +58,8 @@ public class AuthenticationService {
         User newuser = new User();
         newuser.setName(request.getName());
         newuser.setRole(request.getRole());
-        newuser.setPassword(passwordEncoder.encode(request.getPassword()));
         newuser.setEmail(request.getEmail());
+        newuser.setPassword(passwordEncoder.encode(request.getPassword()));
         newuser.setUserAttribute(null);
        //This going to be true after the completer registration
         newuser.setRegistered(false);
@@ -82,42 +86,29 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
 //        .token(jwtToken)
                 .message(" You have signup succesfully")
-                .registrationKey(String.valueOf(savedUserAttribute.getReg_key()))
+                .registrationKey(String.valueOf(savedUserAttribute.getRegistrationKey()))
                 .build();
     }
 
 
     // TOdo replace findbyid-> to findbyregkey and in the if statement we have to take input from from payload typeofotp and the retrun(proper message).
 
-    public boolean validateOTP(int userId, String code) {
 
-        Optional<UserAttribute> otpOptional = userAttributeRepository.findById(userId);
 
-        if (otpOptional.isPresent())
-        {
+public ResponseEntity<ResponseDto> validateOTP(UserAttributeDto user) throws Exception {
+    UserAttribute userAttribute = userAttributeRepository.findByRegistrationKey((user.getRegisterKey()));
 
-            UserAttribute otp = otpOptional.get();
-            if (otp.getOtp().equals(code) && otp.getOtpExpiryTime().isAfter(LocalDateTime.now())) {
-                // userAttributeRepo.delete(otp);
-                otp.setEmail_verified(true);
-                userAttributeRepository.save(otp);
-                return true;
-            }
-        }
-        return false;
+//    userAttribute.getOtpExpiryTime().isAfter(LocalDateTime.now())
+//    userAttribute.equals(user.getRegisterKey())  &&  user.getRegisterKey().equals(userAttribute.getOtpType()) &&
+    if(user.getOtp().equals(userAttribute.getOtp()) && user.getOtpType().equals(userAttribute.getOtpType()))
+    {
+        userAttribute.setOtpVerified(true);
+        userAttributeRepository.save(userAttribute);
+        return ResponseEntity.ok(new ResponseDto(null,"Otp validated successfully"));
     }
-
-//public boolean validateOTP(UserAttribute user) {
-//    UUID otpOptional = userAttributeRepository.findByRegistrationKey(user);
-//    UserAttribute stored_regKey=new UserAttribute();
-//    if(otpOptional.equals(stored_regKey.getReg_key())  && stored_regKey.getOtpExpiryTime().isAfter(LocalDateTime.now()) && stored_regKey.equals("registration_otp"))
-//    {
-//        stored_regKey.setEmail_verified(true);
-//        userAttributeRepository.save(stored_regKey);
-//        return true;
-//    }
-//    return false;
-//    }
+    // Handle here exception send appropriate response code and message
+    throw  new Exception("Incorrect otp");
+    }
 
     public AuthenticationResponse logIn(AuthenticationRequest request) {
         authenticationManager.authenticate(
@@ -128,11 +119,22 @@ public class AuthenticationService {
         );
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
+
+        User newUser=new User();
+        newUser.setName(user.getName());
+        newUser.setEmail(user.getEmail());
+        newUser.setPassword(user.getPassword());
+//        newUser.setPhoneNumber(user.getPhoneNumber());
+//        newUser.setRegistered(user.isRegistered());
+        newUser.setRole(user.getRole());
+
+
+       var jwtToken = jwtService.generateToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .user(newUser)
                 .build();
     }
 

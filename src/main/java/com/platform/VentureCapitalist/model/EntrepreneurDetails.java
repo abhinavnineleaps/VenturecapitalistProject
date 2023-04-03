@@ -32,8 +32,8 @@ public class EntrepreneurDetails {
     private String profileImage;
 
 
-//    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @OneToOne(mappedBy = "entrepreneurDetails",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//    @OneToOne(mappedBy = "entrepreneurDetails",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private User user;
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "startup_details",referencedColumnName = "startupId")

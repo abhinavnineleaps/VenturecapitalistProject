@@ -18,20 +18,27 @@ public class UserAttribute {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "userAttribute_id")// PK
     private int userAttributeId;
-    @OneToOne(mappedBy = "userAttribute",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+
+    @OneToOne
+    @JoinColumn(name = "uId", referencedColumnName = "user_id")
     private User user;
+
     @Column(name = "Otp")
     private String otp;
 
     @Column(name = "otp_type")
     private String otpType;
+
     @Column(name = "otp_expiry_time")
     private LocalDateTime otpExpiryTime;
+
     @Column(name = "reg_key")
-    private UUID reg_key= UUID.randomUUID();
-    @Column(name = "email_verified")
-    private boolean email_verified;
-//    @OneToOne(cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
+    private UUID registrationKey = UUID.randomUUID();
+//    private String registrationKey = String.valueOf(UUID.randomUUID());
+
+    @Column(name = "otp_verified")
+    private boolean otpVerified;
+
 }
 
 
