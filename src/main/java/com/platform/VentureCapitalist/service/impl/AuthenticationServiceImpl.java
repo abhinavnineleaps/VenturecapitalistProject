@@ -63,24 +63,18 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         newuser.setUserAttribute(null);
        //This going to be true after the completer registration
         newuser.setRegistered(false);
-
         User savedUser = userRepository.save(newuser);
-
         UserAttribute userAttribute = new UserAttribute();
         String otp = OtpGenerator.generateOTP();
-
         LocalDateTime localDateTime = LocalDateTime.now().plusMinutes(5);
         userAttribute.setOtp(otp);
         userAttribute.setOtpExpiryTime(localDateTime);
         userAttribute.setOtpType("registration_otp");
         userAttribute.setUser(savedUser);
-       UserAttribute savedUserAttribute= userAttributeRepository.save(userAttribute);
+        UserAttribute savedUserAttribute= userAttributeRepository.save(userAttribute);
 //       savedUser.setUserAttribute(savedUserAttribute);
-
         //This we have to handle
-
-//        emailUtils.sendEmailOtp(request.getEmail(),otp);
-
+          emailUtils.sendEmailOtp(request.getEmail(),otp);
 //        var jwtToken = jwtService.generateToken(user);
 //        saveUserToken(savedUser, jwtToken);
         return AuthenticationResponse.builder()
@@ -89,11 +83,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
                 .registrationKey(String.valueOf(savedUserAttribute.getRegistrationKey()))
                 .build();
     }
-
-
     // TOdo replace findbyid-> to findbyregkey and in the if statement we have to take input from from payload typeofotp and the retrun(proper message).
-
-
 
 public ResponseEntity<ResponseDto> validateOTP(UserAttributeDto user) throws Exception {
     UserAttribute userAttribute = userAttributeRepository.findByRegistrationKey((user.getRegisterKey()));

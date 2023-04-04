@@ -42,13 +42,6 @@ public class AuthenticationController {
 
 
 
-
-
-
-
-
-
-
     @PostMapping("/signup")
     public ResponseEntity<?> signUpUser(@RequestBody UserDto userDto) {
         return ResponseEntity.ok(authenticationService.signUp(userDto));
@@ -65,9 +58,6 @@ public class AuthenticationController {
 
     @PostMapping("/validate")
     public ResponseEntity<ResponseDto> validation(@RequestBody UserAttributeDto userAttributeDto) throws Exception {
-
-
-
             return authenticationService.validateOTP(userAttributeDto);
     }
 

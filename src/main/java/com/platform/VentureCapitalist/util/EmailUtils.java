@@ -8,15 +8,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailUtils {
     @Autowired
-    private static JavaMailSender mailSender;
-    public static void sendEmailOtp(String emailId,String otp)
+    private  JavaMailSender mailSender;
+    public void sendEmailOtp(String emailId,String otp)
     {
         SimpleMailMessage message = new SimpleMailMessage();
-
         message.setTo(emailId);
         message.setSubject("Your OTP");
         message.setText("OTP is " + otp);
-//        mailSender.send(message);
-
+        mailSender.send(message);
     }
 }
